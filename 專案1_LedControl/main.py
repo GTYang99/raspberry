@@ -24,6 +24,8 @@ class LightButton(tk.Button):
         self.open_photo = ImageTk.PhotoImage(open_image)
         self.config(borderwidth=0)
         self.config(font=('arial',18))
+        # 把圖片原始定義為靠左邊
+        self.config(compound=tk.LEFT)
 
     def open(self):
         self.config(image=self.open_photo)

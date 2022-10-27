@@ -3,6 +3,7 @@ from PIL import Image,ImageTk
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+import RPi.GPIO as GPIO
 
 cred = credentials.Certificate("private/raspberry1-45ee2-firebase-adminsdk-5h0yc-149b6394cf.json")
 firebase_admin.initialize_app(cred,{

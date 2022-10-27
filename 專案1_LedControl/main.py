@@ -1,4 +1,9 @@
 import tkinter as tk
+import firebase_admin
+from firebase_admin import credentials
+
+cred = credentials.Certificate("private/raspberry1-45ee2-firebase-adminsdk-5h0yc-149b6394cf.json")
+firebase_admin.initialize_app(cred)
 
 class Window(tk.Tk):
     def __init__(self):
@@ -11,7 +16,7 @@ class Window(tk.Tk):
 
     def userClick(self):
         print("user click")
-        
+
 def main():
     pass
 

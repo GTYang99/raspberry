@@ -8,7 +8,7 @@ firebase_admin.initialize_app(cred,{
     # 這邊databasURL的URL要大寫
     'databaseURL':'https://raspberry1-45ee2-default-rtdb.firebaseio.com/'
 })
-ref = db.reference('ledControl/led')
+ref = db.reference('ledcontrol')
 
 class Window(tk.Tk):
     def __init__(self):
@@ -21,7 +21,9 @@ class Window(tk.Tk):
 
     def userClick(self):
         # print("user click")
-        print(ref.get())
+        # print(ref.get())
+        currentState = ref.get()['led']
+        ref.update({'led':not currentState})
 
 def main():
     pass

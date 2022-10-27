@@ -57,10 +57,14 @@ class window(tk.Tk):
         # 建立讀取數據庫的資料，改變開關字樣
         currentState = ref.get()['led']
         if currentState:
+            # GPIO BVM25設定為開啟時，給出高的電壓
             self.btn.open()
+            GPIO.output(25,GPIO.HIGH)
             # self.btn.config(image=self.close_photo)
         else:
             self.btn.close()
+            # GPIO BVM25設定為關閉時，給出低的電壓
+            GPIO.output(25,GPIO.LOW)
             # self.btn.config(image=self.open_photo)
 
     def userClick(self):
@@ -70,12 +74,18 @@ class window(tk.Tk):
         ref.update({'led':not currentState})
         if currentState:
             self.btn.close()
+            GPIO.output(25,GPIO.LOW)
             # self.btn.config(image=self.close_photo)
         else:
             self.btn.open()
+            GPIO.output(25,GPIO.HIGH)
             # self.btn.config(image=self.open_photo)
 
 def main():
+    # GPIO的基礎設定模式，
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(25,GPIO.OUT)
     windows = window()
     windows.mainloop()
 

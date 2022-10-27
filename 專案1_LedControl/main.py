@@ -2,6 +2,7 @@ import tkinter as tk
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+from PIL import Image,ImageTk
 
 cred = credentials.Certificate("private/raspberry1-45ee2-firebase-adminsdk-5h0yc-149b6394cf.json")
 firebase_admin.initialize_app(cred,{
@@ -18,9 +19,12 @@ class Window(tk.Tk):
         #建立按鈕
         # btn = tk.Button(self,text="開關",padx=50,pady=30,font=('arial',18),command=self.userClick)
         # btn.pack(padx=50,pady=30)
-        self.btn = tk.Button(self,text="開關",padx=50,pady=30,font=('arial',18),command=self.userClick)
+        # self.btn = tk.Button(self,text="開關",padx=50,pady=30,font=('arial',18),command=self.userClick)
+        close_image = Image.open('light_close.png')
+        self.close_photo = ImageTk.PhotoImage(close_image)
+        self.btn = tk.Button(self,image=self.close_photo,padx=50,pady=30,font=('arial',18),command=self.userClick)
         self.btn.pack(padx=50,pady=30)
-        currentState = led.get()['led']
+        currentState = ref.get()['led']
         if currentState:
             self.btn.config(text="關")
         else:

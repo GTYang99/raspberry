@@ -12,8 +12,8 @@ from firebase_admin import db
 # })
 
 # led = db.reference('ledcontrol')
-class LightButton(tk.Button):
-    def __init__(self,parent,**kwargs):
+class LightPhoto(tk.Canvas):
+    def __init__(self,parent,state=False,**kwargs):
         super().__init__(parent,**kwargs)
         #建立圖片
         ##建立close的圖片
@@ -22,16 +22,33 @@ class LightButton(tk.Button):
         ##建立open的圖片
         open_image = Image.open('light_open.png')
         self.open_photo = ImageTk.PhotoImage(open_image)
-        self.config(borderwidth=0)
-        self.config(state="disabled")
+        # self.config(borderwidth=0)
+        # self.config(state="disabled")
         # self.config(font=('arial',18))
         # self.config(compound=tk.LEFT)
-    def open(self):
-        self.config(image=self.open_photo)
+        self.__state = None
+        self.state = state
+        #設canvas的寬高
+        self.config(width=close_image.size[0]+20,height=close_image.size[1]+20)
+
+    # def open(self):
+    #     self.config(image=self.open_photo)
         # self.config(text="關")
-    def close(self):
-        self.config(image=self.close_photo);
+    # def close(self):
+    #     self.config(image=self.close_photo)
         # self.config(text="開")  
+    @property
+    def state(self):
+        return self.__state
+    @state.setter
+    def state(self,s):
+        self.__state = s
+        self.delete('all')
+        if s == True:
+            self.create_image(10,10,anchor=tk.NW,image=self.open_photo)
+        else:
+            self.create_image(10,10,anchor=tk.NW,image=self.close_photo)
+
 class Window(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -49,14 +66,18 @@ class Window(tk.Tk):
         self.title("LED Controller")
         #建立按鈕
         # self.btn = LightButton(self,padx=50,pady=30,command=self.userClick)
-        self.btn = LightButton(self,padx=50,pady=30)
-        self.btn.pack(padx=50,pady=30)
+        # self.btn = LightPhoto(self,padx=50,pady=30)
+        # self.btn.pack(padx=50,pady=30)
+        self.lightPhoto = LightPhoto(self)
+        self.lightPhoto.pack(padx=50,pady=30)
         currentState = led.get()['led']
         if currentState:
-            self.btn.open()
+            # self.btn.open()
+            self.lightPhoto.state = True
             GPIO.output(25,GPIO.HIGH)
         else:
-            self.btn.close()
+            # self.btn.close()
+            self.lightPhoto.state = False
             GPIO.output(25,GPIO.LOW)
         #註冊監聽
         led.listen(self.firebaseDataChange)
@@ -80,10 +101,12 @@ class Window(tk.Tk):
             state = event.data
 
         if state:
-            self.btn.open()
+            # self.btn.open()
+            self.lightPhoto.state = True
             GPIO.output(25,GPIO.HIGH)
         else:
-            self.btn.close()
+            # self.btn.close()
+            self.lightPhoto.state = False
             GPIO.output(25,GPIO.LOW)
 
 

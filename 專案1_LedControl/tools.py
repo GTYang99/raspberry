@@ -1,4 +1,7 @@
 
+import tkinter as tk
+from PIL import Image,ImageTk
+
 class LightButton(tk.Button):
     def __init__(self,parent,**kwargs):
         super().__init__(parent,**kwargs)

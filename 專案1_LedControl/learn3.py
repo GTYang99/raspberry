@@ -7,12 +7,14 @@ class Window(tk.Tk):
         # 建立一個tk功能中的Canvas
         canvas1 = tk.Canvas(self,width=400,height=250,background='#BF6766')
         # 線條是利用座標格式去畫
-        # 創建長方形方法
-        canvas1.create_rectangle(30,10,120,80,outline='#000')
-        canvas1.create_rectangle(150, 10, 240, 80, outline="#000", fill="#f50")
-        canvas1.create_rectangle(270, 10, 370, 80, outline="#000", fill="#05f")
-        # 創建圓弧方法
-        canvas1.create_arc(100,100,150,150,start=0,extent=120, outline="#000")
+        # 創建圓形
+        canvas1.create_oval(10,10,80,80,outline='#000')
+        # 創建橢圓形
+        canvas1.create_oval(110,10,300,80,outline='#000')
+        # 創建座標點
+        points = [150, 100, 200, 120, 240, 180, 210, 200, 150, 150, 100, 200]
+        # 創建多邊形
+        canvas1.create_polygon(points,outline='#000',fill='#ff1')
         # tk的YES就是true
         canvas1.pack(fill=tk.BOTH,expand=tk.YES)
 

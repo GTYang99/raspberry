@@ -1,22 +1,25 @@
 # 創建Python Tkinter 畫布（Canvas）
 import tkinter as tk
+from PIL import Image,ImageTk
 
 class Window(tk.Tk):
     def __init__(self):
         super().__init__()
-        # 建立一個tk功能中的Canvas
-        canvas1 = tk.Canvas(self,width=400,height=250,background='#BF6766')
-        # 線條是利用座標格式去畫
-        # 創建圓形
-        canvas1.create_oval(10,10,80,80,outline='#000')
-        # 創建橢圓形
-        canvas1.create_oval(110,10,300,80,outline='#000')
-        # 創建座標點
-        points = [150, 100, 200, 120, 240, 180, 210, 200, 150, 150, 100, 200]
-        # 創建多邊形
-        canvas1.create_polygon(points,outline='#000',fill='#ff1')
+        # 畫圖片
+        # 建立開燈的圖片
+        image  = Image.open("light_open.png")
+        self.lightImage = ImageTk.PhotoImage(image)
+        print(image.size)
+        canvas = tk.Canvas(self,width=image.size[0]+20,height=image.size[1]+20)
+        canvas.create_image(10,10,anchor=tk.NW,image=self.lightImage)
+        # 關閉開燈的圖片(畫布清除)
+        canvas.delete("all")
+        # 建立關燈的圖片
+        image1  = Image.open("light_close.png")
+        self.lightImage1 = ImageTk.PhotoImage(image1)
+        canvas.create_image(10,10,anchor=tk.NW,image=self.lightImage1)
         # tk的YES就是true
-        canvas1.pack(fill=tk.BOTH,expand=tk.YES)
+        canvas.pack()
 
 def main():
     window = Window()

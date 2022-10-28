@@ -16,11 +16,27 @@ class LightButton(tk.Button):
         self.config(font=('arial',18))
         # 把圖片原始定義為靠左邊
         self.config(compound=tk.LEFT)
+        self.__light_state = None
 
-    def open(self):
-        self.config(image=self.open_photo)
-        self.config(text="關")
+    # 開關內容(open、close)修改為封裝的值(light_state)，建立一個屬性(light_state)與setter(重新設置)來調整
+    # def open(self):
+    #     self.config(image=self.open_photo)
+    #     self.config(text="關")
 
-    def close(self):
-        self.config(image=self.close_photo)
-        self.config(text="開")
+    # def close(self):
+    #     self.config(image=self.close_photo)
+    #     self.config(text="開")
+
+    @property
+    def light_state(self):
+        return self.__state
+
+    @light_state.setter
+    def light_state(self,s):
+        self.__light_state = s
+        if s == True:            
+            self.config(image=self.open_photo)
+            self.config(text="關")
+        else:
+            self.config(image=self.close_photo);
+            self.config(text="開")  

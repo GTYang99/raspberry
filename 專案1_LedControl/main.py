@@ -39,14 +39,16 @@ class window(tk.Tk):
         currentState = ref.get()['led']
         if currentState:
             # GPIO BVM25設定為開啟時，給出高的電壓
-            self.btn.open()
+            # self.btn.open()
             GPIO.output(25,GPIO.HIGH)
             # self.btn.config(image=self.close_photo)
+            self.btn.light_state = True
         else:
-            self.btn.close()
+            # self.btn.close()
             # GPIO BVM25設定為關閉時，給出低的電壓
             GPIO.output(25,GPIO.LOW)
             # self.btn.config(image=self.open_photo)
+            self.btn.light_state = False
 
     def userClick(self):
         # 收集led的資料
@@ -54,13 +56,15 @@ class window(tk.Tk):
         currentState = ref.get()['led']
         ref.update({'led':not currentState})
         if currentState:
-            self.btn.close()
+            # self.btn.close()
             GPIO.output(25,GPIO.LOW)
             # self.btn.config(image=self.close_photo)
+            self.btn.light_state = False
         else:
-            self.btn.open()
+            # self.btn.open()
             GPIO.output(25,GPIO.HIGH)
             # self.btn.config(image=self.open_photo)
+            self.btn.light_state = True
 
 def main():
     # GPIO的基礎設定模式，

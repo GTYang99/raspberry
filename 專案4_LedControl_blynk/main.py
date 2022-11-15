@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 # 確認載入的模塊是使用物件導向或者是function導向寫的
 from tools import LightButton
 
+BLYNK_AUTH_TOKEN = '0wdpF3047cAv4kU738sPvpPlBmCyVtR_'
+
 class LightButton(tk.Button):
     def __init__(self,parent,**kwargs):
         super().__init__(parent,**kwargs)
@@ -24,10 +26,6 @@ class LightButton(tk.Button):
     def close(self):
         self.config(image=self.close_photo)
     
-    def delete_delay(self):
-        # 設置清除GPIO接口電源
-        GPIO.cleanup()
-        self.destroy()
 
 
 class window(tk.Tk):
@@ -48,7 +46,18 @@ class window(tk.Tk):
         # self.btn = tk.Button(self,text='開關',padx=50,pady=30,font=('arial',18),command=self.userClick)
         self.btn = LightButton(self,padx=50,pady=30)
         self.btn.pack(padx=50,pady=30)
-        self.btn.open()
+        # self.btn.open()
+        self.repeat_run()
+
+    def delete_delay(self):
+        # 設置清除GPIO接口電源
+        GPIO.cleanup()
+        self.after_cancel(self.windows_id)
+        self.destroy()
+
+    def repeat_run(self):
+        print('run')
+        self.windows_id = self.after(1000,self.repeat_run)
         # 建立讀取數據庫的資料，改變開關字樣
         '''
         currentState = ref.get()['led']
@@ -88,7 +97,7 @@ def main():
     GPIO.setup(25,GPIO.OUT)
     windows = window()
     # 呼叫協議，清除GPIO接口電源
-    window.protocol("WM_DELETE_WINDOW",window.delete_delay)
+    windows.protocol("WM_DELETE_WINDOW",windows.delete_delay)
     windows.mainloop()
 
 if __name__ == "__main__":

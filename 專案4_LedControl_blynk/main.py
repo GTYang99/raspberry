@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 # 確認載入的模塊是使用物件導向或者是function導向寫的
 from tools import LightButton
 
-cred = credentials.Certificate("private/raspberry1-45ee2-firebase-adminsdk-5h0yc-149b6394cf.json")
+cred = credentials.Certificate("private/raspberry1-45ee2-firebase-adminsdk-5h0yc-acdceb5727.json")
 firebase_admin.initialize_app(cred,{
     # 這邊databasURL的URL要大寫
     'databaseURL':'https://raspberry1-45ee2-default-rtdb.firebaseio.com/'

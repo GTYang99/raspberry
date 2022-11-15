@@ -4,6 +4,7 @@ from PIL import Image,ImageTk
 import RPi.GPIO as GPIO
 # 確認載入的模塊是使用物件導向或者是function導向寫的
 from tools import LightButton
+import requests
 
 BLYNK_AUTH_TOKEN = '0wdpF3047cAv4kU738sPvpPlBmCyVtR_'
 
@@ -56,7 +57,13 @@ class window(tk.Tk):
         self.destroy()
 
     def repeat_run(self):
-        print('run')
+        geturl = f'https://blynk.cloud/external/api/get?token={BLYNK_AUTH_TOKEN}&v25'
+        response = requests.get(geturl)
+        if response.ok:
+            print(response.text)
+        elif:
+            print("連線失敗")
+        # print('run')
         self.windows_id = self.after(1000,self.repeat_run)
         # 建立讀取數據庫的資料，改變開關字樣
         '''

@@ -22,7 +22,12 @@ class LightButton(tk.Button):
         self.config(image=self.open_photo)
         
     def close(self):
-        self.config(image=self.close_photo);
+        self.config(image=self.close_photo)
+    
+    def delete_delay(self):
+        # 設置清除GPIO接口電源
+        GPIO.cleanup()
+        self.destroy()
 
 
 class window(tk.Tk):
@@ -82,6 +87,8 @@ def main():
     GPIO.setwarnings(False)
     GPIO.setup(25,GPIO.OUT)
     windows = window()
+    # 呼叫協議，清除GPIO接口電源
+    window.protocol("WM_DELETE_WINDOW",window.delete_delay)
     windows.mainloop()
 
 if __name__ == "__main__":
